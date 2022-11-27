@@ -6,7 +6,7 @@ Read about implementation specifics [here](https://github.com/holium/bounties/bl
 
 Frontend exists at `http://localhost:3000/apps/tome-db/`
 
-Desk and agent are both called `%tome`
+Desk is called `%tome`, starter agent is `%tome-api`
 
 Visit [here](https://www.ajlamarc.com/blog/2022-11-19-urbit-setup/) to see 
 more on how this was set up / how to run locally on a fakezod.
