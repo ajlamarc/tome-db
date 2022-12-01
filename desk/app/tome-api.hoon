@@ -22,7 +22,7 @@
 =<
   |_  =bowl:gall
   +*  this  .
-      def  ~(. (default-agent this %|) bowl)
+      def   ~(. (default-agent this %|) bowl)
       eng   ~(. +> [bowl ~])
   ++  on-init
     ^-  (quip card _this)
@@ -60,6 +60,9 @@
     |=  [wir=wire sig=sign:agent:gall]
     ~>  %bout.[0 '%tome-api +on-agent']
     ^-  (quip card _this)
+    ::  =^  cards  state
+    ::    abet:(dude:eng wir sig)
+    ::  [cards this]
     `this
   ::
   ++  on-arvo
@@ -84,6 +87,8 @@
   --
 |_  [bol=bowl:gall dek=(list card)]
 +*  dat  .
+    our  (scot %p our.bol)
+    now  (scot %da now.bol)
 ++  emit  |=(=card dat(dek [card dek]))
 ++  emil  |=(lac=(list card) dat(dek (welp lac dek)))
 ++  abet
@@ -99,4 +104,9 @@
   ^+  dat
   ?>  ?=([%0 *] q.vaz)
   dat(state !<(state-0 vaz))
+::
+:: ++  dude
+::   |=  [pol=(pole knot) sig=sign:agent:gall]
+::   ^+  dat
+::   dat
 --
