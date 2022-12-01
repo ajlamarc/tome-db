@@ -32,10 +32,11 @@ const appPreferencesStore = await tome().kv('app.preferences');
 
 ```javascript
 appPreferencesStore.set('theme', 'dark');  // can pass numbers, bools, objects as value.  Will be stored in %tome-api as a cord
+appPreferencesStore.set('foo', true);
 appPreferencesStore.get('theme'); // 'dark'
-appPreferencesStore.all(); // {'theme', 'dark'}
-appPreferencesStore.remove('theme');
-appPreferencesStore.clear();
+appPreferencesStore.all(); // {'theme': 'dark', 'foo': true}
+appPreferencesStore.remove('theme');  // only 'foo' left
+appPreferencesStore.clear();  // all gone
 ```
 
 Permissioning:
