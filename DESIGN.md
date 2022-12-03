@@ -1,32 +1,37 @@
 **Example**
-JS package design:
 
+Simple package usage:
 ```javascript
 import tome from "@urbit/tome-db";
 
 const db = await tome();
-const appPreferencesStore = await db.kv('app.preferences', {read: 'our', write: 'desk'});
-appPreferencesStore.set('theme', 'dark');  // can pass numbers, bools, objects as value.  Will be stored in %tome-api as a cord
+const store = await db.kv({read: 'our', write: 'desk'});
+const appPreferencesStore = await store('app.preferences', {read: 'our', write: 'desk'});
+appPreferencesStore.set('theme', 'dark');
 ```
 
 ```javascript
-const db = await tome({read: 'our', write: 'desk'});
+const db = await tome();
 ```
-This constructor call creates a top level entry for the current desk. ex. `'uniswap'`
-Permissioning is a hierarchy: if a specific store doesn't specify permissions, it defaults to
-this top level.  Default behavior: this ship can read, only our desk can write.
+This constructor call creates a top level entry for the current desk. ex. `'uniswap'`.  The desk itself doesn't specify permissions, this responsibility is at the store level and below.  Currently, only the `kv` store type exists.
 
-Future work: Allow optional desk name (for reading/writing to other desk stores).
+Future work: Allow optional desk name to be passed here (for reading/writing to other desk stores).
 
 ```javascript
-const appPreferencesStore = await db.kv('app.preferences', {read: 'our', write: 'desk'});
+const store = await db.kv({read: 'our', write: 'desk'});
 ```
-Same permissioning style as above, now we specify a key-value store with a specific name.
-Since these are namespaced by desk, this can duplicate a name from another desk.
+Next, initialize the `kv` bucket with optional global permissions.  If not specified, defaults to `{read: 'our', write: 'desk'}`.
 
-To use again:
 ```javascript
-const appPreferencesStore = await tome().kv('app.preferences');
+const appPreferencesStore = await store.new('app.preferences', {read: 'our', write: 'desk'});
+```
+Finally, create a named store inside the `kv` bucket with its own local permissions.  If not specified, defaults to `{read: 'unset', write: 'unset'}`, and uses the global permissions.
+
+Since stores are namespaced by desk, they can duplicate names from another stores.
+
+To load an existing store:
+```javascript
+const appPreferencesStore = await tome.kv.load('app.preferences');
 ```
 
 
@@ -52,8 +57,9 @@ Permission levels:
 
 `our`:  any desk on our ship can operate.
 
-`all`:  any desk on any ship can operate.
+`any`:  anyone on the network can operate.
 
+`unset`: for nested values only. Uses the global store's permissions.  Stored as a reference (global changes will impact these).
 
 future: more granularity - ability to provide a list of desks,
 and/or a list of ships.
