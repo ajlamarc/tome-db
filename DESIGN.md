@@ -27,16 +27,16 @@ const store = await db.store({read: 'our', write: 'desk'});
 Next, initialize the store with optional global permissions.  If not specified, defaults to `{read: 'our', write: 'desk'}`.
 
 ```javascript
-const appPreferencesStore = await store.create('app.preferences', {read: 'our', write: 'desk'});
+const appPreferencesStash = await store.create('app.preferences', {read: 'our', write: 'desk'});
 ```
 Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses the store's permissions].
 
 Since stores are namespaced by desk, stashes can duplicate names from another desks' stores.
 
-To load an existing store:
+To load an existing stash:
 ```javascript
-import { loadStore } from "@urbit/tome-db";
-const appPreferencesStore = await loadStore('uniswap', 'app.preferences');
+import { loadStash } from "@urbit/tome-db";
+const appPreferencesStash = await loadStash('uniswap', 'app.preferences');
 ```
 
 ```javascript
@@ -76,7 +76,7 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 - Initialization / permissions
   - `{ init-desk: { desk: 'uniswap' }}`: creates an entry for the specified desk.  Currently: this _must_ equal the source desk.
   - `{ init-store: { desk: 'uniswap', permissions: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
-  - `{ create-stash: { desk: 'uniswap', stash: 'app.preferences', permissions: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
+  - `{ init-stash: { desk: 'uniswap', stash: 'app.preferences', permissions: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
 - `Stash`: modify values
