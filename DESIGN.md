@@ -1,13 +1,17 @@
 ## Client Design
 
+### Naming convention
+
+TomeDB creates a `store` for any `desk`.  Each store can have many `stashes` (hold key-value pairs).
+
 **Example**
 ```javascript
 import tome from "@urbit/tome-db";
 
 const db = await tome('uniswap');
 const store = await db.store({read: 'our', write: 'desk'});
-const appPreferencesStore = await store.create('app.preferences', {read: 'our', write: 'desk'});
-appPreferencesStore.set('theme', 'dark');
+const appPreferencesStash = await store.create('app.preferences', {read: 'our', write: 'desk'});
+appPreferencesStash.set('theme', 'dark');
 ```
 **Step-by-step**
 ```javascript
@@ -25,9 +29,9 @@ Next, initialize the store with optional global permissions.  If not specified, 
 ```javascript
 const appPreferencesStore = await store.create('app.preferences', {read: 'our', write: 'desk'});
 ```
-Finally, create a named bucket in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses global permissions].
+Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses global permissions].
 
-Since stores are namespaced by desk, they can duplicate names from another desks' stores.
+Since stores are namespaced by desk, stashes can duplicate names from another desks' stores.
 
 To load an existing store:
 ```javascript
@@ -36,12 +40,12 @@ const appPreferencesStore = await loadStore('uniswap', 'app.preferences');
 ```
 
 ```javascript
-appPreferencesStore.set('theme', 'dark');  // can pass numbers, bools, objects as value.  Will be stored in %tome-api as a cord
-appPreferencesStore.set('foo', true);
-appPreferencesStore.get('theme'); // 'dark'
-appPreferencesStore.all(); // {'theme': 'dark', 'foo': true}
-appPreferencesStore.remove('theme');  // only 'foo' left
-appPreferencesStore.clear();  // all gone
+appPreferencesStash.set('theme', 'dark');  // can pass numbers, bools, objects as value.  Will be stored in %tome-api as a cord
+appPreferencesStash.set('foo', true);
+appPreferencesStash.get('theme'); // 'dark'
+appPreferencesStash.all(); // {'theme': 'dark', 'foo': true}
+appPreferencesStash.remove('theme');  // only 'foo' left
+appPreferencesStash.clear();  // all gone
 ```
 
 ## Permissioning:
@@ -59,7 +63,7 @@ appPreferencesStore.clear();  // all gone
 
 `any`:  anyone on the network can operate.
 
-`unset`: for nested values only. Uses the global store's permissions.  Stored as a reference (global changes will impact these).
+`unset`: for stashes only. Uses the global store's permissions.  Stored as a reference (global changes will impact these).
 
 future: more granularity - ability to provide a list of desks,
 and/or a list of ships.  `invis`: Read requests are not denied but simply fail (for additional security)?
@@ -71,18 +75,18 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 
 - Initialization / permissions
   - `{ init-desk: { desk: 'uniswap' }}`: creates an entry for the specified desk.  Currently: this _must_ equal the source desk.
-  - `{ init-kv: { desk: 'uniswap', permissions: { read: 'our', write: 'desk' }}}`:  Initializes permissions for kv store.  The `db.kv` call.
-  - `{ create-kv-store: { desk: 'uniswap', store: 'app.preferences', permissions: { read: 'our', write: 'desk' }}}`:  Creates a named store and specifies permissions.  The `store.create` call.
-  - _Additional pokes for modifying permissions, deleting desk data / stores, etc_
+  - `{ init-store: { desk: 'uniswap', permissions: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
+  - `{ create-stash: { desk: 'uniswap', stash: 'app.preferences', permissions: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
+  - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
-- `KV`: modify values
-  - `{ set-kv: { desk: 'uniswap', store: 'app.preferences', key: 'theme', value: 'dark' }}`
-  - `{ remove-kv: { desk: 'uniswap', store: 'app.preferences', key: 'theme' }}`
-  - `{ clear-kv: { desk: 'uniswap', store: 'app.preferences' }}`
+- `Stash`: modify values
+  - `{ set-kv: { desk: 'uniswap', stash: 'app.preferences', key: 'theme', value: 'dark' }}`
+  - `{ remove-kv: { desk: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
+  - `{ clear-kv: { desk: 'uniswap', stash: 'app.preferences' }}`
 
 ### Scries
 
-- `KV`: retrieve values
-  - `/x/<desk>/kv/<store>/json` Get everything in a store (`.all()`)
-  - `/x/<desk>/kv/<store>/<key>/json` Get value associated with specific key in a store (`.get()`)
+- `Stash`: retrieve values
+  - `/x/<desk>/store/<stash>/json` Get everything in a store (`.all()`)
+  - `/x/<desk>/store/<stash>/<key>/json` Get value associated with specific key in a store (`.get()`)
   - _Additional scries for viewing permissions or metadata associated with desks or stores_
