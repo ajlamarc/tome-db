@@ -1,10 +1,11 @@
+/-  *tome
 /+  verb, dbug, default-agent
 ::
 |%
 ::
 +$  versioned-state  $%(state-0)
 ::
-+$  state-0  [%0 ~]
++$  state-0  [%0 =tome]
 ::
 ::
 ::  boilerplate
@@ -33,7 +34,7 @@
   ::
   ++  on-save
     ^-  vase
-    ~>  %bout.[0 '%tome-api-api +on-save']
+    ~>  %bout.[0 '%tome-api +on-save']
     !>(state)
   ::
   ++  on-load
@@ -109,4 +110,7 @@
 ::   |=  [pol=(pole knot) sig=sign:agent:gall]
 ::   ^+  dat
 ::   dat
+::  +kv: key-value engine
+::
+::++  kv
 --

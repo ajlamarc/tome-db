@@ -1,5 +1,5 @@
 |%
-+$  desk   @tas
++$  desk   @t
 +$  stash  @t
 +$  level
   $?  %desk
@@ -11,4 +11,10 @@
 +$  kv      (map key=@t val=@t)
 +$  store   (map stash (pair perm kv))
 +$  tome    (map desk (pair perm store))
+::
++$  action
+  $%  [%init-desk =desk]
+      :: [%init-store =desk =perm]
+      :: [%init-stash =desk =stash =perm]
+  ==
 --
