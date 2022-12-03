@@ -2,7 +2,7 @@
 
 ### Naming convention
 
-TomeDB creates a `store` for any `desk`.  Each store can have many `stashes` (hold key-value pairs).
+TomeDB can create a `store` for any `desk`.  Each store can have many `stashes` (hold key-value pairs).
 
 **Example**
 ```javascript
