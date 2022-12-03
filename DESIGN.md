@@ -29,7 +29,7 @@ Next, initialize the store with optional global permissions.  If not specified, 
 ```javascript
 const appPreferencesStore = await store.create('app.preferences', {read: 'our', write: 'desk'});
 ```
-Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses global permissions].
+Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses the store's permissions].
 
 Since stores are namespaced by desk, stashes can duplicate names from another desks' stores.
 
@@ -80,13 +80,13 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
 - `Stash`: modify values
-  - `{ set-kv: { desk: 'uniswap', stash: 'app.preferences', key: 'theme', value: 'dark' }}`
-  - `{ remove-kv: { desk: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
-  - `{ clear-kv: { desk: 'uniswap', stash: 'app.preferences' }}`
+  - `{ set-stash: { desk: 'uniswap', stash: 'app.preferences', key: 'theme', value: 'dark' }}`
+  - `{ remove-stash: { desk: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
+  - `{ clear-stash: { desk: 'uniswap', stash: 'app.preferences' }}`
 
 ### Scries
 
 - `Stash`: retrieve values
-  - `/x/<desk>/store/<stash>/json` Get everything in a store (`.all()`)
-  - `/x/<desk>/store/<stash>/<key>/json` Get value associated with specific key in a store (`.get()`)
-  - _Additional scries for viewing permissions or metadata associated with desks or stores_
+  - `/x/<desk>/store/<stash>/json` Get everything in a stash (`.all()`)
+  - `/x/<desk>/store/<stash>/<key>/json` Get value associated with specific key in a stash (`.get()`)
+  - _Additional scries for viewing permissions or metadata associated with desks, stores, or stashes_
