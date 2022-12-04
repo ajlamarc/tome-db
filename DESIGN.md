@@ -73,7 +73,7 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 ### Pokes
 
 - Initialization / permissions.  `desk` is the desk to apply to, `src` is the desk requesting
-  - `{ init-desk: { desk: 'uniswap', src: 'uniswap' }}`: creates an entry for the specified desk.  Currently: this _must_ equal the source desk.
+  - `{ init-tome: { desk: 'uniswap', src: 'uniswap' }}`: creates a tome for the specified desk.  Currently: this _must_ equal the source desk.
   - `{ init-store: { desk: 'uniswap', src: 'uniswap', perm: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
   - `{ init-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_

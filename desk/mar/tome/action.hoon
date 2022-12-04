@@ -13,7 +13,7 @@
     ^-  action
     %.  jon
     %-  of
-    :~  init-desk/(ot ~[desk/so src/so])
+    :~  init-tome/(ot ~[desk/so src/so])
         init-store/(ot ~[desk/so src/so perm/(ot ~[read/(su (perk [%desk %our %any ~])) write/(su (perk [%desk %our %any ~]))])])
         init-stash/(ot ~[desk/so src/so stash/so perm/(ot ~[read/(su (perk [%desk %our %any %unset ~])) write/(su (perk [%desk %our %any %unset ~]))])])
         ::

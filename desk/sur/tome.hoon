@@ -18,7 +18,7 @@
 +$  tome    (map desk (pair perm store))
 ::
 +$  action
-  $%  [%init-desk =desk =src]
+  $%  [%init-tome =desk =src]
       [%init-store =desk =src =perm]
       [%init-stash =desk =src =stash =perm]
       [%set-stash =desk =src =stash =key =val]
