@@ -49,7 +49,8 @@
     |=  [mar=mark vaz=vase]
     ~>  %bout.[0 '%tome-api +on-poke']
     ^-  (quip card _this)
-    `this
+    =^  cards  state  abet:(poke:eng mar vaz)
+    [cards this]
   ::
   ++  on-peek
     |=  =path
@@ -105,6 +106,18 @@
   ^+  dat
   ?>  ?=([%0 *] q.vaz)
   dat(state !<(state-0 vaz))
+::
+++  poke
+  |=  [mar=mark vaz=vase]
+  =^  cards  state
+    ?+    mar  ~|(bad-tome-mark/mar !!)
+        %tome-action
+      =/  act=action  !<(action vaz)
+      ~&  >>>  act
+      :: type check head (action) and related logic
+      `state
+    ==
+  (emil cards)
 ::
 :: ++  dude
 ::   |=  [pol=(pole knot) sig=sign:agent:gall]
