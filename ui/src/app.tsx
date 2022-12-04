@@ -7,10 +7,11 @@ api.ship = window.ship;
 export function App() {
 
   useEffect(() => {
+    console.log(window.desk)
     api.poke({
       app: 'tome-api', // agent name
       mark: 'tome-action',
-      json: { 'set-stash': { 'desk': 'uniswap', 'stash': 'app.preferences', 'key': 'theme', 'value': 'dark' } },
+      json: { 'set-stash': { 'desk': 'uniswap', 'src': 'uniswap', 'stash': 'app.preferences', 'key': 'theme', 'val': 'dark' } },
       // onSuccess: () => { setOn(_on); getLogs(); },
     })
   }, []);

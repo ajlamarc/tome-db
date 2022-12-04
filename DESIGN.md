@@ -18,6 +18,7 @@ appPreferencesStash.set('theme', 'dark');
 const db = await tome('uniswap');
 ```
 This constructor call creates a top level entry for the specified desk.  Permissions cannot be specified here, this responsibility falls on the different storage types (now only `store`).
+Default: the current desk, `window.desk`.
 
 Future work: Allow other desk names besides the current desk (necessary for composability).
 
@@ -73,16 +74,16 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 
 ### Pokes
 
-- Initialization / permissions
-  - `{ init-desk: { desk: 'uniswap' }}`: creates an entry for the specified desk.  Currently: this _must_ equal the source desk.
-  - `{ init-store: { desk: 'uniswap', permissions: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
-  - `{ init-stash: { desk: 'uniswap', stash: 'app.preferences', permissions: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
+- Initialization / permissions.  `desk` is the desk to apply to, `src` is the desk requesting
+  - `{ init-desk: { desk: 'uniswap', src: 'uniswap' }}`: creates an entry for the specified desk.  Currently: this _must_ equal the source desk.
+  - `{ init-store: { desk: 'uniswap', src: 'uniswap', perm: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
+  - `{ init-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
 - `Stash`: modify values
-  - `{ set-stash: { desk: 'uniswap', stash: 'app.preferences', key: 'theme', value: 'dark' }}`
-  - `{ remove-stash: { desk: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
-  - `{ clear-stash: { desk: 'uniswap', stash: 'app.preferences' }}`
+  - `{ set-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', key: 'theme', val: 'dark' }}`
+  - `{ remove-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
+  - `{ clear-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences' }}`
 
 ### Scries
 

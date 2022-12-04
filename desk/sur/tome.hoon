@@ -1,8 +1,9 @@
 |%
 +$  desk   @t
++$  src    @t
 +$  stash  @t
 +$  key    @t
-+$  value  @t
++$  val  @t
 ::
 +$  level
   $?  %desk
@@ -12,16 +13,16 @@
   ==
 ::
 +$  perm    (pair read=level write=level)
-+$  kv      (map =key =value)
++$  kv      (map =key =val)
 +$  store   (map stash (pair perm kv))
 +$  tome    (map desk (pair perm store))
 ::
 +$  action
-  $%  [%init-desk =desk]
-      [%init-store =desk =perm]
-      [%init-stash =desk =stash =perm]
-      [%set-stash =desk =stash =key =value]
-      [%remove-stash =desk =stash =key]
-      [%clear-stash =desk =stash]
+  $%  [%init-desk =desk =src]
+      [%init-store =desk =src =perm]
+      [%init-stash =desk =src =stash =perm]
+      [%set-stash =desk =src =stash =key =val]
+      [%remove-stash =desk =src =stash =key]
+      [%clear-stash =desk =src =stash]
   ==
 --
