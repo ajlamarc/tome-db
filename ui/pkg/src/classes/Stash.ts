@@ -7,7 +7,7 @@ export class Stash extends Store {
   protected stash_perm: StashPerm;
 
   public constructor(api: Urbit, desk: string, stash: string, store_perm: StorePerm, stash_perm: StashPerm) {
-    super(api, desk, store_perm);
+    super(api, desk, store_perm, true);
     this.stash = stash;
     this.stash_perm = stash_perm;
 

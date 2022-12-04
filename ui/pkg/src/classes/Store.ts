@@ -5,11 +5,13 @@ import { Tome, Stash } from './index';
 export class Store extends Tome {
   protected perm: StorePerm;
 
-  public constructor(api: Urbit, desk: string, perm: StorePerm) {
-    super(api, desk);
+  public constructor(api: Urbit, desk: string, perm: StorePerm, _initialized: boolean = false) {
+    super(api, desk, true);
     this.perm = perm;
 
-    this.initStore();
+    if (!_initialized) {
+      this.initStore().then().catch((e) => { console.error(e) });
+    }
   }
 
   public create(stash: string, permissions: StashPerm = { read: 'unset', write: 'unset' }) {
