@@ -20,8 +20,6 @@ const db = await tome('uniswap');
 This constructor call creates a top level entry for the specified desk.  Permissions cannot be specified here, this responsibility falls on the different storage types (now only `store`).
 Default: the current desk, `window.desk`.
 
-Future work: Allow other desk names besides the current desk (necessary for composability).
-
 ```javascript
 const store = await db.store({read: 'our', write: 'desk'});
 ```
@@ -88,6 +86,6 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 ### Scries
 
 - `Stash`: retrieve values
-  - `/x/<desk>/store/<stash>/json` Get everything in a stash (`.all()`)
-  - `/x/<desk>/store/<stash>/<key>/json` Get value associated with specific key in a stash (`.get()`)
+  - `/x/<desk>/<src>/store/<stash>/json` Get everything in a stash (`.all()`)
+  - `/x/<desk>/<src>/store/<stash>/<key>/json` Get value associated with specific key in a stash (`.get()`)
   - _Additional scries for viewing permissions or metadata associated with desks, stores, or stashes_

@@ -17,6 +17,7 @@ export class Tome {
     this.desk = desk;
     this.src = api.desk;
 
+    // try-catch this?
     this.initDesk();
   }
 

@@ -11,6 +11,8 @@ const store = db.store();
 const appPreferencesStash = store.create('app.preferences');
 await appPreferencesStash.set('foo', 'bar');  // saying this doesn't exist, but it does. ??
 
+appPreferencesStash.get('foo');
+
 export function App() {
   return (
     <main className="flex items-center justify-center min-h-screen">

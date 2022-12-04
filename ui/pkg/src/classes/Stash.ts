@@ -41,6 +41,22 @@ export class Stash extends Store {
     });
   }
 
+  // %get-stash
+  public async get(key: string) {
+    await this.api.scry({
+      app: 'tome-api',
+      path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
+    })
+  }
+
+  // %get-stash
+  public async all() {
+    await this.api.scry({
+      app: 'tome-api',
+      path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
+    })
+  }
+
   // %init-stash
   private async initStash() {
     await this.api.poke({
