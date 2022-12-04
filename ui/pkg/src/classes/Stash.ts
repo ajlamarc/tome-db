@@ -14,6 +14,33 @@ export class Stash extends Store {
     this.initStash();
   }
 
+  // %set-stash
+  public async set(key: string, value: string) {
+    await this.api.poke({
+      app: 'tome-api',
+      mark: 'tome-action',
+      json: { 'set-stash': { desk: this.desk, src: this.src, stash: this.stash, key: key, val: value } }
+    });
+  }
+
+  // %remove-stash
+  public async remove(key: string) {
+    await this.api.poke({
+      app: 'tome-api',
+      mark: 'tome-action',
+      json: { 'remove-stash': { desk: this.desk, src: this.src, stash: this.stash, key: key } }
+    });
+  }
+
+  // %clear-stash
+  public async clear() {
+    await this.api.poke({
+      app: 'tome-api',
+      mark: 'tome-action',
+      json: { 'remove-stash': { desk: this.desk, src: this.src, stash: this.stash } }
+    });
+  }
+
   // %init-stash
   private async initStash() {
     await this.api.poke({
