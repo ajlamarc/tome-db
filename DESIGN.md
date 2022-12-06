@@ -21,14 +21,14 @@ This constructor call creates a top level entry for the specified desk.  Permiss
 Default: the current desk, `window.desk`.
 
 ```javascript
-const store = await db.store({read: 'our', write: 'desk'});
+const store = await db.store({read: 'our', write: 'our'});
 ```
-Next, initialize the store with optional global permissions.  If not specified, defaults to `{read: 'our', write: 'desk'}`.
+Next, initialize the store with optional global permissions.  If not specified, defaults to `{read: 'our', write: 'our'}`.
 
 ```javascript
 const appPreferencesStash = await store.create('app.preferences', {read: 'our', write: 'desk'});
 ```
-Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'unset', write: 'unset'}` [uses the store's permissions].
+Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'our', write: 'desk'}`.
 
 Since stores are namespaced by desk, stashes can duplicate names from another desks' stores.
 
@@ -62,8 +62,6 @@ appPreferencesStash.clear();  // all gone
 
 `any`:  anyone on the network can operate.
 
-`unset`: for stashes only. Uses the global store's permissions.  Stored as a reference (global changes will impact these).
-
 future: more granularity - ability to provide a list of desks,
 and/or a list of ships.  `invis`: Read requests are not denied but simply fail (for additional security)?
 
@@ -75,17 +73,17 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 - Initialization / permissions.  `desk` is the desk to apply to, `src` is the desk requesting
   - `{ init-tome: { desk: 'uniswap', src: 'uniswap' }}`: creates a tome for the specified desk.  Currently: this _must_ equal the source desk.
   - `{ init-store: { desk: 'uniswap', src: 'uniswap', perm: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
-  - `{ init-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
+  - `{ init-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
 - `Stash`: modify values
-  - `{ set-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', key: 'theme', val: 'dark' }}`
-  - `{ remove-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences', key: 'theme' }}`
-  - `{ clear-stash: { desk: 'uniswap', src: 'uniswap', stash: 'app.preferences' }}`
+  - `{ set-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', key: 'theme', val: 'dark' }}`
+  - `{ remove-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', key: 'theme' }}`
+  - `{ clear-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences' }}`
 
 ### Scries
 
 - `Stash`: retrieve values
-  - `/x/<desk>/<src>/store/<stash>/json` Get everything in a stash (`.all()`)
-  - `/x/<desk>/<src>/store/<stash>/<key>/json` Get value associated with specific key in a stash (`.get()`)
+  - `/x/<desk>/<src>/store/<name>/json` Get everything in a stash (`.all()`)
+  - `/x/<desk>/<src>/store/<name>/<key>/json` Get value associated with specific key in a stash (`.get()`)
   - _Additional scries for viewing permissions or metadata associated with desks, stores, or stashes_

@@ -1,5 +1,5 @@
 import Urbit from '@urbit/http-api';
-import { StorePerm } from '../index';
+import { Perm } from '../index';
 import { Store } from './index';
 
 export class Tome {
@@ -22,7 +22,13 @@ export class Tome {
     }
   }
 
-  public store(permissions: StorePerm = { read: 'our', write: 'desk' }) {
+  /**
+ * Create a store for the current desk.  A store can hold many stashes,
+ * and each stash holds many key-value pairs.
+ * @param permissions  The global permissions for the store.  Defaults to
+ * `{ read: 'our', write: 'our' }`
+ */
+  public store(permissions: Perm = { read: 'our', write: 'our' }) {
     return new Store(this.api, this.desk, permissions);
   }
 

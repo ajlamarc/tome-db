@@ -1,11 +1,11 @@
 import Urbit from '@urbit/http-api';
-import { StorePerm, StashPerm } from '../index';
+import { Perm } from '../index';
 import { Tome, Stash } from './index';
 
 export class Store extends Tome {
-  protected perm: StorePerm;
+  protected perm: Perm;
 
-  public constructor(api: Urbit, desk: string, perm: StorePerm, _initialized: boolean = false) {
+  public constructor(api: Urbit, desk: string, perm: Perm, _initialized: boolean = false) {
     super(api, desk, true);
     this.perm = perm;
 
@@ -14,7 +14,12 @@ export class Store extends Tome {
     }
   }
 
-  public create(stash: string, permissions: StashPerm = { read: 'unset', write: 'unset' }) {
+  /**
+  * Create a new stash (a named bucket for key-value pairs).
+  * @param permissions  The permissions for the stash.  Defaults to
+  * `{ read: 'our', write: 'desk' }`
+  */
+  public create(stash: string, permissions: Perm = { read: 'our', write: 'desk' }) {
     return new Stash(this.api, this.desk, stash, this.perm, permissions);
   }
 

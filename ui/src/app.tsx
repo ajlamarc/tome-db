@@ -9,7 +9,13 @@ api.ship = window.ship;
 const db = new Tome(api);
 const store = db.store();
 const appPreferencesStash = store.create('app.preferences');
-await appPreferencesStash.set('foo', 'bar');  // saying this doesn't exist, but it does. ??
+await appPreferencesStash.set('foo', 'bar');
+
+appPreferencesStash.clear();
+
+// localStorage.setItem('items', JSON.stringify("testing"));
+// console.log(localStorage.getItem('items'));
+
 
 appPreferencesStash.get('foo');
 

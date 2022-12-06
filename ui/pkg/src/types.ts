@@ -1,9 +1,4 @@
-export interface StorePerm {
+export interface Perm {
   read: 'desk' | 'our' | 'any';
   write: 'desk' | 'our' | 'any';
-}
-
-export interface StashPerm {
-  read: 'desk' | 'our' | 'any' | 'unset';
-  write: 'desk' | 'our' | 'any' | 'unset';
 }

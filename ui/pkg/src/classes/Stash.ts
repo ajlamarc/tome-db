@@ -1,14 +1,14 @@
 import Urbit from '@urbit/http-api';
-import { StorePerm, StashPerm } from '../index';
+import { Perm } from '../index';
 import { Store } from './index';
 
 export class Stash extends Store {
-  protected stash: string;
-  protected stash_perm: StashPerm;
+  protected name: string;
+  protected stash_perm: Perm;
 
-  public constructor(api: Urbit, desk: string, stash: string, store_perm: StorePerm, stash_perm: StashPerm) {
+  public constructor(api: Urbit, desk: string, name: string, store_perm: Perm, stash_perm: Perm) {
     super(api, desk, store_perm, true);
-    this.stash = stash;
+    this.name = name;
     this.stash_perm = stash_perm;
 
     this.initStash();
@@ -19,7 +19,7 @@ export class Stash extends Store {
     await this.api.poke({
       app: 'tome-api',
       mark: 'tome-action',
-      json: { 'set-stash': { desk: this.desk, src: this.src, stash: this.stash, key: key, val: value } }
+      json: { 'set-stash': { desk: this.desk, src: this.src, name: this.name, key: key, val: value } }
     });
   }
 
@@ -28,7 +28,7 @@ export class Stash extends Store {
     await this.api.poke({
       app: 'tome-api',
       mark: 'tome-action',
-      json: { 'remove-stash': { desk: this.desk, src: this.src, stash: this.stash, key: key } }
+      json: { 'remove-stash': { desk: this.desk, src: this.src, name: this.name, key: key } }
     });
   }
 
@@ -37,7 +37,7 @@ export class Stash extends Store {
     await this.api.poke({
       app: 'tome-api',
       mark: 'tome-action',
-      json: { 'remove-stash': { desk: this.desk, src: this.src, stash: this.stash } }
+      json: { 'clear-stash': { desk: this.desk, src: this.src, name: this.name } }
     });
   }
 
@@ -45,7 +45,7 @@ export class Stash extends Store {
   public async get(key: string) {
     await this.api.scry({
       app: 'tome-api',
-      path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
+      path: `/${this.desk}/${this.src}/store/${this.name}/${key}/json`,
     })
   }
 
@@ -53,7 +53,7 @@ export class Stash extends Store {
   public async all() {
     await this.api.scry({
       app: 'tome-api',
-      path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
+      path: `/${this.desk}/${this.src}/store/${this.name}/json`,
     })
   }
 
@@ -62,7 +62,7 @@ export class Stash extends Store {
     await this.api.poke({
       app: 'tome-api',
       mark: 'tome-action',
-      json: { 'init-stash': { desk: this.desk, src: this.src, stash: this.stash, perm: this.stash_perm } }
+      json: { 'init-stash': { desk: this.desk, src: this.src, name: this.name, perm: this.stash_perm } }
     });
   }
 }
