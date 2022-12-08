@@ -120,8 +120,7 @@
       ?:  (~(has by stores) desk.+.act)
         :: already exists, ignore
         `state
-      :: `state(stores (~(put by stores) desk.+.act (pair perm.+.act ~)))  :: this but it doesn't work
-      `state
+      `state(stores (~(put by stores) desk.+.act [perm.+.act ~]))
         %store-action
       =/  act  !<(store-action vaz)
       ~&  >>>  act
