@@ -1,28 +1,29 @@
 |%
-+$  desk   @t
-+$  src    @t
-+$  stash  @t
-+$  key    @t
-+$  val  @t
++$  desk  @t  :: desk being requested
++$  src   @t  :: origin desk of request
++$  sta   @t  :: name of the stash
++$  key   @t
++$  val   @t
 ::
 +$  level
   $?  %desk
       %our
       %any
-      %unset
   ==
 ::
 +$  perm    (pair read=level write=level)
 +$  kv      (map =key =val)
-+$  store   (map stash (pair perm kv))
-+$  tome    (map desk (pair perm store))
++$  stash   (pair =perm (unit =kv))
++$  store   (pair =perm (unit (map sta stash)))
 ::
-+$  action
-  $%  [%init-tome =desk =src]
-      [%init-store =desk =src =perm]
-      [%init-stash =desk =src =stash =perm]
-      [%set-stash =desk =src =stash =key =val]
-      [%remove-stash =desk =src =stash =key]
-      [%clear-stash =desk =src =stash]
++$  tome-action
+  $%  [%init-store =desk =src =perm]
+    :: log, feed, etc.
+  ==
++$  store-action
+  $%  [%init-stash =desk =src =sta =perm]
+      [%set-stash =desk =src =sta =key =val]
+      [%remove-stash =desk =src =sta =key]
+      [%clear-stash =desk =src =sta]
   ==
 --

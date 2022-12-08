@@ -17,9 +17,9 @@ export class Tome {
     this.desk = desk;
     this.src = api.desk;
 
-    if (!_initialized) {
-      this.initTome().then().catch((e) => { console.error(e) });
-    }
+    // if (!_initialized) {
+    //   this.initTome().then().catch((e) => { console.error(e) });
+    // }
   }
 
   /**
@@ -36,7 +36,7 @@ export class Tome {
   private async initTome() {
     await this.api.poke({
       app: 'tome-api',
-      mark: 'tome-action',
+      mark: 'store-action',
       json: { 'init-tome': { desk: this.desk, src: this.src } }
     });
   }

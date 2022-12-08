@@ -5,7 +5,7 @@
 ::
 +$  versioned-state  $%(state-0)
 ::
-+$  state-0  [%0 =tome]
++$  state-0  [%0 stores=(map desk store)] :: add other types of tomes here
 ::
 ::
 ::  boilerplate
@@ -100,21 +100,32 @@
 ++  init
   ^+  dat
   dat
+::  +load: handle on-load
 ::
 ++  load
   |=  vaz=vase
   ^+  dat
   ?>  ?=([%0 *] q.vaz)
   dat(state !<(state-0 vaz))
+::  +poke: handle on-poke
 ::
 ++  poke
   |=  [mar=mark vaz=vase]
   =^  cards  state
-    ?+    mar  ~|(bad-tome-mark/mar !!)
+    ?+  mar  ~|(bad-tome-mark/mar !!)
         %tome-action
-      =/  act=action  !<(action vaz)
+      =/  act  !<(tome-action vaz)
       ~&  >>>  act
-      :: type check head (action) and related logic
+      ?>  ?=(%init-store -.act)
+      ?:  (~(has by stores) desk.+.act)
+        :: already exists, ignore
+        `state
+      :: `state(stores (~(put by stores) desk.+.act (pair perm.+.act ~)))  :: this but it doesn't work
+      `state
+        %store-action
+      =/  act  !<(store-action vaz)
+      ~&  >>>  act
+      :: so-abet:(so-poke:(so-abed:so +.act) act)
       `state
     ==
   (emil cards)
@@ -123,7 +134,17 @@
 ::   |=  [pol=(pole knot) sig=sign:agent:gall]
 ::   ^+  dat
 ::   dat
-::  +kv: key-value engine
+::  +so: store engine
 ::
-::++  kv
+:: ++  so
+::   |_  $:  =perm
+::           stashes=(map sta stash)
+::           caz=(list card)
+::       ==
+::   +*  so  .
+::   ++  so-emit  |=(c=card so(caz [c caz]))
+::   ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
+::   ++  so-abet  ^-((quip card _state) [(flop caz) state])
+::   ++  so-abed
+::     |=  
 --
