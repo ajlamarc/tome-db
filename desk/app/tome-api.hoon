@@ -118,14 +118,12 @@
       ~&  >>>  act
       ?>  ?=(%init-store -.act)
       ?:  (~(has by stores) desk.+.act)
-        :: already exists, ignore
         `state
-      `state(stores (~(put by stores) desk.+.act [perm.+.act ~]))
+      `state(stores (~(put by stores) desk.+.act [perm.+.act [~ ~]]))
         %store-action
       =/  act  !<(store-action vaz)
       ~&  >>>  act
-      :: so-abet:(so-poke:(so-abed:so +.act) act)
-      `state
+      so-abet:(so-poke:(so-abed:so desk.+.act) act)
     ==
   (emil cards)
 ::
@@ -135,15 +133,33 @@
 ::   dat
 ::  +so: store engine
 ::
-:: ++  so
-::   |_  $:  =perm
-::           stashes=(map sta stash)
-::           caz=(list card)
-::       ==
-::   +*  so  .
-::   ++  so-emit  |=(c=card so(caz [c caz]))
-::   ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
-::   ++  so-abet  ^-((quip card _state) [(flop caz) state])
-::   ++  so-abed
-::     |=  
+++  so
+  |_  $:  dsk=desk
+          =perm
+          =stashes
+          caz=(list card)
+      ==
+  +*  so  .
+  ++  so-emit  |=(c=card so(caz [c caz]))
+  ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
+  ++  so-abet  
+    ^-  (quip card _state)
+    =+  s=(~(put by stores) dsk [perm stashes])
+    [(flop caz) state(stores s)]
+  ::
+  ++  so-abed
+    |=  d=desk
+    =+  store=(~(got by stores) d)
+    so(dsk d, perm p.store, stashes q.store)
+  ::
+  ++  so-poke
+    |=  a=store-action
+    ^+  so
+    ?+  -.a  so
+        %init-stash
+      ?:  (~(has by (need stashes)) sta.a)
+        so
+      so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
+    ==
+  --
 --

@@ -11,10 +11,11 @@
       %any
   ==
 ::
-+$  perm    (pair read=level write=level)
-+$  kv      (map =key =val)
-+$  stash   (pair =perm (unit =kv))
-+$  store   (pair =perm (unit (map sta stash)))
++$  perm     (pair read=level write=level)
++$  kv       (unit (map key val))
++$  stash    (pair perm kv)
++$  stashes  (unit (map sta stash))
++$  store    (pair perm stashes)
 ::
 +$  tome-action
   $%  [%init-store =desk =src =perm]
