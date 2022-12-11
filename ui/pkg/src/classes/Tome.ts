@@ -4,18 +4,23 @@ import { Store } from './index';
 
 export class Tome {
   protected src: string;
+  protected mars: boolean;  // whether or not we're on Urbit
 
   /**
- * Constructs a new Tome connection.
+ * Constructs a new Tome.
  *
- * @param api The Urbit connection to be used for requests.
+ * @param api The optional Urbit connection to be used for requests.  If not
+ * provided, Tome will attempt to use localStorage.
  * @param desk The desk to connect to.  Can specify a foreign desk to read/write
  * to other applications.
  */
-  public constructor(public api: Urbit, public desk: string = api.desk) {
-    this.api = api;
-    this.desk = desk;
-    this.src = api.desk;
+  public constructor(public api?: Urbit, public desk?: string) {
+    this.mars = typeof api !== 'undefined';
+    if (this.mars) {
+      this.api = api;
+      this.src = api.desk;
+      this.desk = desk ? desk : this.src;
+    }
   }
 
   /**
@@ -25,6 +30,11 @@ export class Tome {
  * `{ read: 'our', write: 'our' }`
  */
   public store(permissions: Perm = { read: 'our', write: 'our' }): Store {
-    return new Store(this.api, this.desk, permissions);
+    if (this.mars === true) {
+      return new Store(this.api, this.desk, permissions);
+    } else {
+      return new Store();
+    }
+
   }
 }

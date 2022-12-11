@@ -190,6 +190,7 @@
   ++  so-peek
     |=  pol=(pole knot)
     ^-  (unit (unit cage))
+    ::  TODO: consider returning these as strings instead of json objects
     ?+    pol  !!
         [%x desk=@ src=@ %store sta=@ %json ~]
       =+  kv=(need kv:(st-abed:st `@t`sta.pol))

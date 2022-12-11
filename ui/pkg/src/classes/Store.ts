@@ -5,12 +5,14 @@ import { Tome, Stash } from './index';
 export class Store extends Tome {
   protected perm: Perm;
 
-  public constructor(api: Urbit, desk: string, perm: Perm, _initialized: boolean = false) {
-    super(api, desk);
-    this.perm = perm;
+  public constructor(api?: Urbit, desk?: string, perm?: Perm, _initialized: boolean = false) {
+    typeof api === 'undefined' ? super() : super(api, desk);
+    if (this.mars) {
+      this.perm = perm;
 
-    if (!_initialized) {
-      this.initStore().then().catch((e) => { console.error(e) });
+      if (!_initialized) {
+        this.initStore().then().catch((e) => { console.error(e) });
+      }
     }
   }
 
@@ -21,7 +23,11 @@ export class Store extends Tome {
   * `{ read: 'our', write: 'desk' }`
   */
   public create(stash: string, permissions: Perm = { read: 'our', write: 'desk' }): Stash {
-    return new Stash(this.api, this.desk, stash, this.perm, permissions);
+    if (this.mars) {
+      return new Stash(stash, this.api, this.desk, this.perm, permissions);
+    } else {
+      return new Stash(stash);
+    }
   }
 
   private async initStore() {
