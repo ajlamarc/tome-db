@@ -17,7 +17,8 @@ await appPreferencesStash.set('foo', 'bar');
 // console.log(localStorage.getItem('items'));
 
 
-// appPreferencesStash.get('foo');
+const value = await appPreferencesStash.get('foo');
+console.log(value);
 
 export function App() {
   return (

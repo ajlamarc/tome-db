@@ -56,7 +56,7 @@
     |=  =path
     ~>  %bout.[0 '%tome-api +on-peek']
     ^-  (unit (unit cage))
-    [~ ~]
+    (peek:eng path)
   ::
   ++  on-agent
     |=  [wir=wire sig=sign:agent:gall]
@@ -115,22 +115,28 @@
     ?+  mar  ~|(bad-tome-mark/mar !!)
         %tome-action
       =/  act  !<(tome-action vaz)
-      ~&  >>>  act
-      ?>  ?=(%init-store -.act)
+      ::  init-store
       ?:  (~(has by stores) desk.act)
         `state
       `state(stores (~(put by stores) desk.act [perm.act [~ ~]]))
         %store-action
       =/  act  !<(store-action vaz)
-      ~&  >>>  act
       so-abet:(so-poke:(so-abed:so desk.act) act)
         %stash-action
       =/  act  !<(stash-action vaz)
-      ~&  >>>  act
       so-abet:(so-poke:(so-abed:so desk.act) act)
     ==
   (emil cards)
+::  +peek: handle on-peek
 ::
+++  peek
+  |=  pol=(pole knot)
+  ^-  (unit (unit cage))
+  ?+    pol  !!
+      [%x desk=@ src=@ %store sta=@ key=@ %json ~]
+    ~&  >>>  pol
+    (so-peek:(so-abed:so `@t`desk.pol) pol)
+  ==
 :: ++  dude
 ::   |=  [pol=(pole knot) sig=sign:agent:gall]
 ::   ^+  dat
@@ -177,6 +183,15 @@
           %clear-stash
         st-abet:(st-abed:st sta.a)
       ==
+    ==
+  ::
+  ++  so-peek
+    |=  pol=(pole knot)
+    ^-  (unit (unit cage))
+    ?+    pol  !!
+        [%x desk=@ src=@ %store sta=@ key=@ %json ~]
+      =/  =val  (~(got by (need kv:(st-abed:st `@t`sta.pol))) `@t`key.pol)
+      ``json+!>(s+val)
     ==
   ::  +st: stash engine
   ::

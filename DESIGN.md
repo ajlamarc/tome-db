@@ -30,7 +30,7 @@ const appPreferencesStash = await store.create('app.preferences', {read: 'our', 
 ```
 Finally, create a stash in the store with its own permissions.  If not specified, permissions default to `{read: 'our', write: 'desk'}`.
 
-Since stores are namespaced by desk, stashes can duplicate names from another desks' stores.
+Stashes can have duplicate names if they are in different desks (stores).
 
 To load an existing stash:
 ```javascript

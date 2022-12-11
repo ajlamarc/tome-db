@@ -42,11 +42,11 @@ export class Stash extends Store {
   }
 
   // %get-stash
-  public async get(key: string) {
-    await this.api.scry({
+  public async get(key: string): Promise<JSON> {
+    return await this.api.scry({
       app: 'tome-api',
       path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
-    })
+    }).then((value) => value);
   }
 
   // %get-stash
