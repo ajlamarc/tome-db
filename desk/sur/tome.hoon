@@ -6,9 +6,9 @@
 +$  val   @t
 ::
 +$  level
-  $?  %desk
+  $?  %any
       %our
-      %any
+      %desk
   ==
 ::
 +$  perm     (pair read=level write=level)
@@ -33,3 +33,4 @@
       [%clear-stash =desk =src =sta]
   ==
 --
+
