@@ -6,7 +6,7 @@ export class Store extends Tome {
   protected perm: Perm;
 
   public constructor(api: Urbit, desk: string, perm: Perm, _initialized: boolean = false) {
-    super(api, desk, true);
+    super(api, desk);
     this.perm = perm;
 
     if (!_initialized) {
@@ -16,14 +16,14 @@ export class Store extends Tome {
 
   /**
   * Create a new stash (a named bucket for key-value pairs).
+  * @param stash  The name of the stash to create.
   * @param permissions  The permissions for the stash.  Defaults to
   * `{ read: 'our', write: 'desk' }`
   */
-  public create(stash: string, permissions: Perm = { read: 'our', write: 'desk' }) {
+  public create(stash: string, permissions: Perm = { read: 'our', write: 'desk' }): Stash {
     return new Stash(this.api, this.desk, stash, this.perm, permissions);
   }
 
-  // %init-store
   private async initStore() {
     await this.api.poke({
       app: 'tome-api',

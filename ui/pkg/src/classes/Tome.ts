@@ -3,7 +3,7 @@ import { Perm } from '../index';
 import { Store } from './index';
 
 export class Tome {
-  protected src: string;  // the desk requests are coming from. always the desk of the JS app
+  protected src: string;
 
   /**
  * Constructs a new Tome connection.
@@ -12,14 +12,10 @@ export class Tome {
  * @param desk The desk to connect to.  Can specify a foreign desk to read/write
  * to other applications.
  */
-  public constructor(public api: Urbit, public desk: string = api.desk, _initialized: boolean = false) {
+  public constructor(public api: Urbit, public desk: string = api.desk) {
     this.api = api;
     this.desk = desk;
     this.src = api.desk;
-
-    // if (!_initialized) {
-    //   this.initTome().then().catch((e) => { console.error(e) });
-    // }
   }
 
   /**
@@ -28,16 +24,7 @@ export class Tome {
  * @param permissions  The global permissions for the store.  Defaults to
  * `{ read: 'our', write: 'our' }`
  */
-  public store(permissions: Perm = { read: 'our', write: 'our' }) {
+  public store(permissions: Perm = { read: 'our', write: 'our' }): Store {
     return new Store(this.api, this.desk, permissions);
-  }
-
-  // %init-tome
-  private async initTome() {
-    await this.api.poke({
-      app: 'tome-api',
-      mark: 'store-action',
-      json: { 'init-tome': { desk: this.desk, src: this.src } }
-    });
   }
 }

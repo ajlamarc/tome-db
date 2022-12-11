@@ -10,15 +10,21 @@ const db = new Tome(api);
 const store = db.store();
 const appPreferencesStash = store.create('app.preferences');
 await appPreferencesStash.set('foo', 'bar');
-
-// appPreferencesStash.clear();
-
-// localStorage.setItem('items', JSON.stringify("testing"));
-// console.log(localStorage.getItem('items'));
-
+await appPreferencesStash.set('baz', 'lol');
 
 const value = await appPreferencesStash.get('foo');
 console.log(value);
+
+let resp = await appPreferencesStash.all();
+console.log(resp['foo']);  // TODO: is there a way to avoid TS complaints here?
+
+await appPreferencesStash.remove('foo');
+resp = await appPreferencesStash.all();
+console.log(resp);
+
+await appPreferencesStash.clear();
+resp = await appPreferencesStash.all();
+console.log(resp);
 
 export function App() {
   return (

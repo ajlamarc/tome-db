@@ -14,8 +14,10 @@ export class Stash extends Store {
     this.initStash();
   }
 
-  // %set-stash
-  public async set(key: string, value: string) {
+  /**
+  * Set a key-value pair in the stash.
+  */
+  public async set(key: string, value: string): Promise<void> {
     await this.api.poke({
       app: 'tome-api',
       mark: 'stash-action',
@@ -23,8 +25,10 @@ export class Stash extends Store {
     });
   }
 
-  // %remove-stash
-  public async remove(key: string) {
+  /**
+  * Remove a specific key-value pair from the stash.
+  */
+  public async remove(key: string): Promise<void> {
     await this.api.poke({
       app: 'tome-api',
       mark: 'stash-action',
@@ -32,8 +36,10 @@ export class Stash extends Store {
     });
   }
 
-  // %clear-stash
-  public async clear() {
+  /**
+  * Discard all values in the stash.
+  */
+  public async clear(): Promise<void> {
     await this.api.poke({
       app: 'tome-api',
       mark: 'stash-action',
@@ -41,20 +47,24 @@ export class Stash extends Store {
     });
   }
 
-  // %get-stash
+  /**
+  * Retrieve the value associated with a specific key in the stash.
+  */
   public async get(key: string): Promise<JSON> {
     return await this.api.scry({
       app: 'tome-api',
       path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
-    }).then((value) => value);
+    }).then((value: JSON) => value);
   }
 
-  // %get-stash
-  public async all() {
-    await this.api.scry({
+  /**
+  * Get all key-value pairs in the stash.
+  */
+  public async all(): Promise<JSON> {
+    return await this.api.scry({
       app: 'tome-api',
       path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
-    })
+    }).then((value: JSON) => value);
   }
 
   // %init-stash

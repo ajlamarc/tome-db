@@ -133,8 +133,10 @@
   |=  pol=(pole knot)
   ^-  (unit (unit cage))
   ?+    pol  !!
+      [%x desk=@ src=@ %store sta=@ %json ~]
+    (so-peek:(so-abed:so `@t`desk.pol) pol)
+    ::
       [%x desk=@ src=@ %store sta=@ key=@ %json ~]
-    ~&  >>>  pol
     (so-peek:(so-abed:so `@t`desk.pol) pol)
   ==
 :: ++  dude
@@ -158,7 +160,7 @@
     [(flop caz) state(stores s)]
   ::
   ++  so-abed
-    |=  d=desk
+    |=  d=desk  :: TODO: probably pass src in also for checks?
     =+  store=(~(got by stores) d)
     so(dsk d, per p.store, stashes q.store)
   ::
@@ -179,9 +181,9 @@
           %set-stash
         st-abet:(st-poke:(st-abed:st sta.a) a)
           %remove-stash
-        st-abet:(st-abed:st sta.a)
+        st-abet:(st-poke:(st-abed:st sta.a) a)
           %clear-stash
-        st-abet:(st-abed:st sta.a)
+        st-abet:(st-poke:(st-abed:st sta.a) a)
       ==
     ==
   ::
@@ -189,6 +191,10 @@
     |=  pol=(pole knot)
     ^-  (unit (unit cage))
     ?+    pol  !!
+        [%x desk=@ src=@ %store sta=@ %json ~]
+      =+  kv=(need kv:(st-abed:st `@t`sta.pol))
+      ``json+!>(o+(malt (limo ~(tap by (~(run by kv) |=(val=@t s+val))))))
+      ::
         [%x desk=@ src=@ %store sta=@ key=@ %json ~]
       =/  =val  (~(got by (need kv:(st-abed:st `@t`sta.pol))) `@t`key.pol)
       ``json+!>(s+val)
@@ -217,9 +223,9 @@
           %set-stash
         st(kv [~ (~(put by (need kv)) key.a val.a)])
           %remove-stash
-        st
+        st(kv [~ (~(del by (need kv)) key.a)])
           %clear-stash
-        st
+        st(kv [~ ~])
       ==
     --
   --
