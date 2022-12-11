@@ -9,7 +9,7 @@ api.ship = window.ship;
 const db = new Tome(api);
 const store = db.store();
 const appPreferencesStash = store.create('app.preferences');
-// await appPreferencesStash.set('foo', 'bar');
+await appPreferencesStash.set('foo', 'bar');
 
 // appPreferencesStash.clear();
 

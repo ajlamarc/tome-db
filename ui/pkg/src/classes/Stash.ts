@@ -18,7 +18,7 @@ export class Stash extends Store {
   public async set(key: string, value: string) {
     await this.api.poke({
       app: 'tome-api',
-      mark: 'store-action',
+      mark: 'stash-action',
       json: { 'set-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key, val: value } }
     });
   }
@@ -27,7 +27,7 @@ export class Stash extends Store {
   public async remove(key: string) {
     await this.api.poke({
       app: 'tome-api',
-      mark: 'store-action',
+      mark: 'stash-action',
       json: { 'remove-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key } }
     });
   }
@@ -36,7 +36,7 @@ export class Stash extends Store {
   public async clear() {
     await this.api.poke({
       app: 'tome-api',
-      mark: 'store-action',
+      mark: 'stash-action',
       json: { 'clear-stash': { desk: this.desk, src: this.src, sta: this.stash } }
     });
   }

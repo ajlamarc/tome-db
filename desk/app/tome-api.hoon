@@ -117,13 +117,17 @@
       =/  act  !<(tome-action vaz)
       ~&  >>>  act
       ?>  ?=(%init-store -.act)
-      ?:  (~(has by stores) desk.+.act)
+      ?:  (~(has by stores) desk.act)
         `state
-      `state(stores (~(put by stores) desk.+.act [perm.+.act [~ ~]]))
+      `state(stores (~(put by stores) desk.act [perm.act [~ ~]]))
         %store-action
       =/  act  !<(store-action vaz)
       ~&  >>>  act
-      so-abet:(so-poke:(so-abed:so desk.+.act) act)
+      so-abet:(so-poke:(so-abed:so desk.act) act)
+        %stash-action
+      =/  act  !<(stash-action vaz)
+      ~&  >>>  act
+      so-abet:(so-poke:(so-abed:so desk.act) act)
     ==
   (emil cards)
 ::
@@ -135,7 +139,7 @@
 ::
 ++  so
   |_  $:  dsk=desk
-          =perm
+          per=perm
           =stashes
           caz=(list card)
       ==
@@ -144,22 +148,59 @@
   ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
   ++  so-abet  
     ^-  (quip card _state)
-    =+  s=(~(put by stores) dsk [perm stashes])
+    =+  s=(~(put by stores) dsk [per stashes])
     [(flop caz) state(stores s)]
   ::
   ++  so-abed
     |=  d=desk
     =+  store=(~(got by stores) d)
-    so(dsk d, perm p.store, stashes q.store)
+    so(dsk d, per p.store, stashes q.store)
   ::
   ++  so-poke
-    |=  a=store-action
+    |=  a=?(store-action stash-action)
     ^+  so
-    ?+  -.a  so
-        %init-stash
-      ?:  (~(has by (need stashes)) sta.a)
-        so
-      so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
+    ?-  a
+        store-action
+      ?-  -.a
+          %init-stash
+        ?:  (~(has by (need stashes)) sta.a)
+          so
+        so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
+      ==
+        stash-action
+      so
     ==
+    :: ?-  a
+    ::     store-action
+    ::   ?+  -.a  so
+    ::       %init-stash
+    ::     ?:  (~(has by (need stashes)) sta.a)
+    ::       so
+    ::     so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
+    ::   ==
+    ::     stash-action
+    ::   st-abet:(st-poke:(st-abed:st sta.a) a)
+    :: ==
+  ::  +st: stash engine
+  ::
+  ++  st
+    |_  $:  s=sta
+            p=perm
+            =kv
+            car=(list card)
+        ==
+    +*  st  .
+    ++  st-emit  |=(c=card st(car [c car]))
+    ++  st-emil  |=(lc=(list card) st(car (welp lc car)))
+    ++  st-abet  
+      ^-  (quip card _so)
+      =+  stash=(~(put by (need stashes)) s [p kv])
+      [(flop car) so(stashes [~ stash])]
+    ::
+    ++  st-abed
+      |=  =sta
+      =+  stash=(~(got by (need stashes)) sta)
+      st(s sta, p p.stash, kv q.stash)
+    --
   --
 --

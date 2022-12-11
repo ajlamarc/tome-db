@@ -21,9 +21,14 @@
   $%  [%init-store =desk =src =perm]
     :: log, feed, etc.
   ==
+::
 +$  store-action
   $%  [%init-stash =desk =src =sta =perm]
-      [%set-stash =desk =src =sta =key =val]
+    :: update permissions, delete, etc.
+  ==
+::
++$  stash-action
+  $%  [%set-stash =desk =src =sta =key =val]
       [%remove-stash =desk =src =sta =key]
       [%clear-stash =desk =src =sta]
   ==
