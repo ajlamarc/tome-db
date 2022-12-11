@@ -168,39 +168,44 @@
         so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
       ==
         stash-action
-      so
+      :: force compiler to recognize what sta.a is
+      ?-  -.a
+          %set-stash
+        st-abet:(st-poke:(st-abed:st sta.a) a)
+          %remove-stash
+        st-abet:(st-abed:st sta.a)
+          %clear-stash
+        st-abet:(st-abed:st sta.a)
+      ==
     ==
-    :: ?-  a
-    ::     store-action
-    ::   ?+  -.a  so
-    ::       %init-stash
-    ::     ?:  (~(has by (need stashes)) sta.a)
-    ::       so
-    ::     so(stashes [~ (~(put by (need stashes)) sta.a [perm.a [~ ~]])])
-    ::   ==
-    ::     stash-action
-    ::   st-abet:(st-poke:(st-abed:st sta.a) a)
-    :: ==
   ::  +st: stash engine
   ::
   ++  st
     |_  $:  s=sta
             p=perm
             =kv
-            car=(list card)
         ==
     +*  st  .
-    ++  st-emit  |=(c=card st(car [c car]))
-    ++  st-emil  |=(lc=(list card) st(car (welp lc car)))
     ++  st-abet  
-      ^-  (quip card _so)
+      ^+  so
       =+  stash=(~(put by (need stashes)) s [p kv])
-      [(flop car) so(stashes [~ stash])]
+      so(stashes [~ stash])
     ::
     ++  st-abed
       |=  =sta
       =+  stash=(~(got by (need stashes)) sta)
       st(s sta, p p.stash, kv q.stash)
+    ++  st-poke
+      |=  a=stash-action
+      ^+  st
+      ?-  -.a
+          %set-stash
+        st(kv [~ (~(put by (need kv)) key.a val.a)])
+          %remove-stash
+        st
+          %clear-stash
+        st
+      ==
     --
   --
 --
