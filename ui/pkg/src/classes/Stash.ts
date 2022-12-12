@@ -77,24 +77,24 @@ export class Stash extends Store {
   /**
   * Get all key-value pairs in the stash.
   */
-  public async all(): Promise<JSON> {
+  public async all(): Promise<Map<string, string>> {
     if (!this.mars) {
+      const map: Map<string, string> = new Map();
       const len = localStorage.length;
-      let jon: Object = {};
+      const startIndex = `${this.stash}/`.length;
       for (let i = 0; i < len; i++) {
         const key = localStorage.key(i);
         if (key.startsWith(`${this.stash}/`)) {
-          const startIndex = `${this.stash}/`.length;
           const keyName = key.substring(startIndex); // get key without prefix
-          jon[keyName] = localStorage.getItem(key);
+          map.set(keyName, localStorage.getItem(key));
         }
       }
-      return JSON.parse(JSON.stringify(jon));
+      return map;
     } else {
       return await this.api.scry({
         app: 'tome-api',
         path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
-      }).then((value: JSON) => value);
+      }).then((value: JSON) => new Map(Object.entries(value)));
     }
   }
 

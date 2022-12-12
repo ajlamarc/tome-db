@@ -16,7 +16,7 @@ const value = await appPreferencesStash.get('foo');
 console.log(value);
 
 let resp = await appPreferencesStash.all();
-console.log(resp['foo']);  // TODO: is there a way to avoid TS complaints here?
+console.log(resp.get('foo'));
 
 await appPreferencesStash.remove('foo');
 resp = await appPreferencesStash.all();
@@ -34,10 +34,10 @@ await localStash.set('foo', 'bar');
 await localStash.set('baz', 'lol');
 
 const localval = await localStash.get('foo');
-console.log(value);
+console.log(localval);
 
 resp = await localStash.all();
-console.log(resp['foo']);  // TODO: is there a way to avoid TS complaints here?
+console.log(resp.get('foo'));
 
 await localStash.remove('foo');
 resp = await localStash.all();

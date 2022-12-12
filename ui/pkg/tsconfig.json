@@ -6,7 +6,8 @@
       "es5",
       "dom",
       "es2015",
-      "es2015.collection"
+      "es2015.collection",
+      "ESNext"
     ], /* Specify library files to be included in the compilation. */
     "declaration": true, /* Generates corresponding '.d.ts' file. */
     "declarationMap": true, /* Generates a sourcemap for each corresponding '.d.ts' file. */
