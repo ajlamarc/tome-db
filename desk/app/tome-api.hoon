@@ -113,15 +113,18 @@
   |=  [mar=mark vaz=vase]
   =^  cards  state
     ?+  mar  ~|(bad-tome-mark/mar !!)
-        %tome-action
+      ::
+        %tome-action  :: init-store
+      ?.  =(our.bol src.bol)  ~|('no-foreign-store' !!)
       =/  act  !<(tome-action vaz)
-      ::  init-store
       ?:  (~(has by stores) desk.act)
         `state
       `state(stores (~(put by stores) desk.act [perm.act [~ ~]]))
+      ::
         %store-action
       =/  act  !<(store-action vaz)
       so-abet:(so-poke:(so-abed:so desk.act) act)
+      ::
         %stash-action
       =/  act  !<(stash-action vaz)
       so-abet:(so-poke:(so-abed:so desk.act) act)
@@ -132,7 +135,8 @@
 ++  peek
   |=  pol=(pole knot)
   ^-  (unit (unit cage))
-  ?+    pol  !!
+  ?+    pol  ~|(bad-scry-path/pol !!)
+    ::
       [%x desk=@ src=@ %store sta=@ %json ~]
     (so-peek:(so-abed:so `@t`desk.pol) pol)
     ::
@@ -152,21 +156,33 @@
           caz=(list card)
       ==
   +*  so  .
-  ++  so-emit  |=(c=card so(caz [c caz]))
-  ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
+  :: ++  so-emit  |=(c=card so(caz [c caz]))
+  :: ++  so-emil  |=(lc=(list card) so(caz (welp lc caz)))
   ++  so-abet  
     ^-  (quip card _state)
     =+  s=(~(put by stores) dsk [per stashes])
     [(flop caz) state(stores s)]
   ::
   ++  so-abed
-    |=  d=desk  :: TODO: probably pass src in also for checks?
+    |=  d=desk
     =+  store=(~(got by stores) d)
     so(dsk d, per p.store, stashes q.store)
   ::
   ++  so-poke
     |=  a=?(store-action stash-action)
     ^+  so
+    ::  First, check write permissions
+    =/  allow=?
+      ?-    q.per
+          %any
+        %.y
+          %our
+        =(our.bol src.bol)
+          %desk
+        &(=(our.bol src.bol) =(desk.a src.a))
+      ==
+    ?:  =(allow %.n)  ~|('no-store-poke' !!)
+    ::
     ?-  a
         store-action
       ?-  -.a
@@ -190,15 +206,26 @@
   ++  so-peek
     |=  pol=(pole knot)
     ^-  (unit (unit cage))
-    ::  TODO: consider returning these as strings instead of json objects
-    ?+    pol  !!
+    ::  First, check read permissions
+    =/  allow=?
+      ?-    p.per
+          %any
+        %.y
+          %our
+        =(our.bol src.bol)
+          %desk
+        =(our.bol src.bol)
+        :: &(=(our.bol src.bol) =(desk.pol src.pol))
+      ==
+    ?:  =(allow %.n)  ~|('no-store-scry' !!)
+    ::
+    ?+    pol  ~|(bad-scry-path/pol !!)
+      ::
         [%x desk=@ src=@ %store sta=@ %json ~]
-      =+  kv=(need kv:(st-abed:st `@t`sta.pol))
-      ``json+!>(o+(malt (limo ~(tap by (~(run by kv) |=(val=@t s+val))))))
+      (st-peek:(st-abed:st `@t`sta.pol) pol)
       ::
         [%x desk=@ src=@ %store sta=@ key=@ %json ~]
-      =/  =val  (~(got by (need kv:(st-abed:st `@t`sta.pol))) `@t`key.pol)
-      ``json+!>(s+val)
+      (st-peek:(st-abed:st `@t`sta.pol) pol)
     ==
   ::  +st: stash engine
   ::
@@ -220,6 +247,18 @@
     ++  st-poke
       |=  a=stash-action
       ^+  st
+      ::  First, check write permissions
+      =/  allow=?
+        ?-    q.p
+            %any
+          %.y
+            %our
+          =(our.bol src.bol)
+            %desk
+          &(=(our.bol src.bol) =(desk.a src.a))
+        ==
+      ?:  =(allow %.n)  ~|('no-stash-poke' !!)
+      ::
       ?-  -.a
           %set-stash
         st(kv [~ (~(put by (need kv)) key.a val.a)])
@@ -227,6 +266,31 @@
         st(kv [~ (~(del by (need kv)) key.a)])
           %clear-stash
         st(kv [~ ~])
+      ==
+    ++  st-peek
+      |=  pol=(pole knot)
+      ^-  (unit (unit cage))
+      ::  First, check read permissions
+      =/  allow=?
+        ?-    p.p
+            %any
+          %.y
+            %our
+          =(our.bol src.bol)
+            %desk
+          =(our.bol src.bol)
+          :: &(=(our.bol src.bol) =(desk.pol src.pol))
+        ==
+      ?:  =(allow %.n)  ~|('no-store-scry' !!)
+      ::
+      ?+    pol  ~|(bad-scry-path/pol !!)
+        ::
+          [%x desk=@ src=@ %store sta=@ %json ~]
+        ``json+!>(o+(malt (limo ~(tap by (~(run by (need kv)) |=(val=@t s+val))))))
+        ::
+          [%x desk=@ src=@ %store sta=@ key=@ %json ~]
+        =+  val=(~(got by (need kv)) `@t`key.pol)
+        ``json+!>(s+val)
       ==
     --
   --
