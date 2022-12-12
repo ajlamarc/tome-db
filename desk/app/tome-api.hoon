@@ -281,7 +281,7 @@
           =(our.bol src.bol)
           :: &(=(our.bol src.bol) =(desk.pol src.pol))
         ==
-      ?:  =(allow %.n)  ~|('no-store-scry' !!)
+      ?:  =(allow %.n)  ~|('no-stash-scry' !!)
       ::
       ?+    pol  ~|(bad-scry-path/pol !!)
         ::
