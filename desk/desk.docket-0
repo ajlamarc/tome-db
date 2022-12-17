@@ -4,7 +4,7 @@
     image+'https://freedom-club.sfo2.digitaloceanspaces.com/props/quartus/long-logo/ab_Quartus-05_only.png'
     version+[0 0 1]
     website+'https://dalten.org/'
-    license+'REKT'
+    license+'MIT'
     glob-http+['https://bootstrap.urbit.org/glob-0v5.hurm4.ejod5.ngg9h.iub9i.n1j7o.glob' 0v5.hurm4.ejod5.ngg9h.iub9i.n1j7o]
     base+'tome-db'
 ==
