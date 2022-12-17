@@ -7,6 +7,7 @@
 ::
 +$  level
   $?  %any
+      %team
       %our
       %desk
   ==

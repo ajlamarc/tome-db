@@ -13,7 +13,7 @@
     ^-  tome-action
     %.  jon
     %-  of
-    :~  init-store/(ot ~[desk/so src/so perm/(ot ~[read/(su (perk [%desk %our %any ~])) write/(su (perk [%desk %our %any ~]))])])
+    :~  init-store/(ot ~[desk/so src/so perm/(ot ~[read/(su (perk [%desk %our %team %any ~])) write/(su (perk [%desk %our %team %any ~]))])])
     ==
   --
 ++  grad  %noun

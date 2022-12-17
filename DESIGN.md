@@ -60,6 +60,8 @@ appPreferencesStash.clear();  // all gone
 
 `our`:  any desk on our ship can operate.
 
+`team`:  our ship, or any moon of us, can operate.
+
 `any`:  anyone on the network can operate.
 
 future: more granularity - ability to provide a list of desks,
@@ -73,13 +75,13 @@ and/or a list of ships.  `invis`: Read requests are not denied but simply fail (
 - Initialization / permissions.  `desk` is the desk to apply to, `src` is the desk requesting
   - `{ init-tome: { desk: 'uniswap', src: 'uniswap' }}`: creates a tome for the specified desk.  Currently: this _must_ equal the source desk.
   - `{ init-store: { desk: 'uniswap', src: 'uniswap', perm: { read: 'our', write: 'desk' }}}`:  Initializes permissions for store.  The `db.store` call.
-  - `{ init-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
+  - `{ init-stash: { desk: 'uniswap', src: 'uniswap', sta: 'app.preferences', perm: { read: 'our', write: 'desk' }}}`:  Creates a stash and specifies permissions.  The `store.create` call.
   - _Additional pokes for modifying permissions, deleting desk data / stashes, etc_
 
 - `Stash`: modify values
-  - `{ set-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', key: 'theme', val: 'dark' }}`
-  - `{ remove-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences', key: 'theme' }}`
-  - `{ clear-stash: { desk: 'uniswap', src: 'uniswap', name: 'app.preferences' }}`
+  - `{ set-stash: { desk: 'uniswap', src: 'uniswap', sta: 'app.preferences', key: 'theme', val: 'dark' }}`
+  - `{ remove-stash: { desk: 'uniswap', src: 'uniswap', sta: 'app.preferences', key: 'theme' }}`
+  - `{ clear-stash: { desk: 'uniswap', src: 'uniswap', sta: 'app.preferences' }}`
 
 ### Scries
 

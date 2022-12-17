@@ -176,6 +176,8 @@
       ?-    q.per
           %any
         %.y
+          %team
+        (team:title our.bol src.bol)
           %our
         =(our.bol src.bol)
           %desk
@@ -211,6 +213,8 @@
       ?-    p.per
           %any
         %.y
+          %team
+        (team:title our.bol src.bol)
           %our
         =(our.bol src.bol)
           %desk
@@ -252,6 +256,8 @@
         ?-    q.p
             %any
           %.y
+            %team
+          (team:title our.bol src.bol)
             %our
           =(our.bol src.bol)
             %desk
@@ -275,6 +281,8 @@
         ?-    p.p
             %any
           %.y
+            %team
+          (team:title our.bol src.bol)
             %our
           =(our.bol src.bol)
             %desk
