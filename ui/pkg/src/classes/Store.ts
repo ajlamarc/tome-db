@@ -21,6 +21,8 @@ export class Store extends Tome {
   * @param stash  The name of the stash to create.
   * @param permissions  The permissions for the stash.  Defaults to
   * `{ read: 'our', write: 'desk' }`
+  * 
+  * can stash creation fail?
   */
   public create(stash: string, permissions: Perm = { read: 'our', write: 'desk' }): Stash {
     if (this.mars) {
@@ -38,3 +40,6 @@ export class Store extends Tome {
     });
   }
 }
+
+//failed to create stash
+//initstore failed?
