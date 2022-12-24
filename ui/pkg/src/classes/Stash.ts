@@ -13,35 +13,58 @@ export class Stash extends Store {
       this.stash_perm = stash_perm;
       this.initStash();
     }
-  }
-
+  } 
+  
   /**
   * Set a key-value pair in the stash.
   */
   public async set(key: string, value: string): Promise<void> {
-    if (!this.mars) {
-      localStorage.setItem(`${this.stash}/${key}`, value);
-    } else {
-      await this.api.poke({
-        app: 'tome-api',
-        mark: 'stash-action',
-        json: { 'set-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key, val: value } }
-      });
+    try {
+      if ((key == null) || (value == null))  {
+        throw "missing key or value parameter"
+      };
+
+      if (!(typeof key === 'string') || !(typeof value === 'string'))  {
+        throw "key or value not a string"
+      };
+      
+      if (!this.mars) {
+        localStorage.setItem(`${this.stash}/${key}`, value);
+      } else {
+        await this.api.poke({
+          app: 'tome-api',
+          mark: 'stash-action',
+          json: { 'set-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key, val: value } }
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
-
   /**
   * Remove a specific key-value pair from the stash.
   */
   public async remove(key: string): Promise<void> {
-    if (!this.mars) {
-      localStorage.removeItem(`${this.stash}/${key}`);
-    } else {
-      await this.api.poke({
-        app: 'tome-api',
-        mark: 'stash-action',
-        json: { 'remove-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key } }
-      });
+    try {
+      if ((key == null))  {
+        throw "missing key parameter"
+      };
+
+      if (!(typeof key === 'string'))  {
+        throw "key not a string"
+      };
+      
+      if (!this.mars) {
+        localStorage.removeItem(`${this.stash}/${key}`);
+      } else {
+        await this.api.poke({
+          app: 'tome-api',
+          mark: 'stash-action',
+          json: { 'remove-stash': { desk: this.desk, src: this.src, sta: this.stash, key: key } }
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -49,52 +72,77 @@ export class Stash extends Store {
   * Discard all values in the stash.
   */
   public async clear(): Promise<void> {
-    if (!this.mars) {
-      localStorage.clear();
-    } else {
-      await this.api.poke({
-        app: 'tome-api',
-        mark: 'stash-action',
-        json: { 'clear-stash': { desk: this.desk, src: this.src, sta: this.stash } }
-      });
+    try {
+      if (!this.mars) {
+        localStorage.clear();
+      } else {
+        await this.api.poke({
+          app: 'tome-api',
+          mark: 'stash-action',
+          json: { 'clear-stash': { desk: this.desk, src: this.src, sta: this.stash } }
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
   /**
-  * Retrieve the value associated with a specific key in the stash.
+  * Retrieve the value associated with a specific key in the stash. //fix  this
   */
   public async get(key: string): Promise<string> {
-    if (!this.mars) {
-      return localStorage.getItem(`${this.stash}/${key}`);
-    } else {
-      return await this.api.scry({
-        app: 'tome-api',
-        path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
-      }).then((value: string) => value);
+    try {
+      if ((key == null))  {
+        throw "missing key parameter"
+      };
+
+      if (!(typeof key === 'string'))  {
+        throw "key not a string"
+      };
+      try{
+          if (!this.mars) {
+            return localStorage.getItem(`${this.stash}/${key}`);
+          } else {
+            return await this.api.scry({
+              app: 'tome-api',
+              path: `/${this.desk}/${this.src}/store/${this.stash}/${key}/json`,
+            }).then((value: string) => value);
+          }
+        }
+      catch (error) {
+        console.error("value not found");
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
+  
   /**
   * Get all key-value pairs in the stash.
   */
-  public async all(): Promise<Map<string, string>> {
-    if (!this.mars) {
-      const map: Map<string, string> = new Map();
-      const len = localStorage.length;
-      const startIndex = `${this.stash}/`.length;
-      for (let i = 0; i < len; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith(`${this.stash}/`)) {
-          const keyName = key.substring(startIndex); // get key without prefix
-          map.set(keyName, localStorage.getItem(key));
+  public async all(): Promise<JSON> {
+    try {
+      if (!this.mars) {
+        const len = localStorage.length;
+        let jon: Object = {};
+        for (let i = 0; i < len; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith(`${this.stash}/`)) {
+            const startIndex = `${this.stash}/`.length;
+            const keyName = key.substring(startIndex); // get key without prefix
+            jon[keyName] = localStorage.getItem(key);
+          }
         }
+        return JSON.parse(JSON.stringify(jon));
+      } else {
+        return await this.api.scry({
+          app: 'tome-api',
+          path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
+        }).then((value: JSON) => value);
       }
-      return map;
-    } else {
-      return await this.api.scry({
-        app: 'tome-api',
-        path: `/${this.desk}/${this.src}/store/${this.stash}/json`,
-      }).then((value: JSON) => new Map(Object.entries(value)));
+    } catch (error) {
+      console.error(error);
     }
   }
 
