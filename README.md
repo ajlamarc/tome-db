@@ -14,3 +14,11 @@ more on how this was set up / how to run locally on a fakezod.
 If you are running on a platform besides linux, your ship URL might
 be different than `http://localhost:8080/`.  Verify and put the correct
 URL in `.env.local`.
+
+To use the `tome-db` package:
+
+- cd to the `pkg` dir inside of `/ui`
+- `npm i`
+- `npm link`
+- inside of `ui`: `npm link ./pkg`
+- Then run the frontend as normal, and use like it is done in app.tsx.

@@ -13,12 +13,12 @@ export const AppTile = ({ image, color }: Charge) => {
 
   return (
     <div
-      className="flex-none relative w-12 h-12 mr-3 rounded-lg bg-gray-200 overflow-hidden"
+      className="relative flex-none w-12 h-12 mr-3 overflow-hidden bg-gray-200 rounded-lg"
       style={{ backgroundColor: normalizeUrbitColor(color) }}
     >
       {image && !imageError && (
         <img
-          className="absolute top-0 left-0 h-full w-full object-cover"
+          className="absolute top-0 left-0 object-cover w-full h-full"
           src={image}
           alt=""
           onError={() => setImageError(true)}
