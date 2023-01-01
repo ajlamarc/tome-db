@@ -134,7 +134,7 @@ export class Stash extends Store {
                 })
                 .then((value: string) => value)
                 .catch((error) => {
-                    console.error(error)
+                    console.error(`key ${key} not found`)
                     return ''
                 })
         }
