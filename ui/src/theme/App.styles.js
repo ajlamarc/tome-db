@@ -56,7 +56,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .body {
-    background-color: ${(props) => props.theme.colors.bg.body};
+    background-color: ${(props) => props.theme.colors.bg.primary};
     color: ${(props) => props.theme.colors.text.primary};
     height: 100vh;
     width: 100vw;
@@ -65,7 +65,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .column {
     flex-basis: 30%;
-    border-right: var(--border-thin) solid;
+    border-right: var(--border-color) solid;
   }
 
   .column:last-child {
@@ -89,10 +89,42 @@ export const GlobalStyle = createGlobalStyle`
     margin-inline-end: var(--space, 0.5em);
   }
 
-  .mytable {
+  .db {
+    background-color: ${(props) => props.theme.colors.bg.secondary};
+  }
+
+  .db-content {
     display: flex;
     flex: 1;
     height: calc(100vh - 2 * var(--s-1) - 2 * var(--border-thin));
+  }
+
+  .add {
+    color: #2454FF;
+  }
+
+  .add-container {
+    cursor: pointer;
+  }
+
+  .add-container:hover {
+    background: rgba(36, 84, 255, 0.1);
+  }
+
+  .header {
+    background: ${(props) => props.theme.colors.bg.tertiary};
+  }
+
+  .row {
+    cursor: pointer;
+  }
+
+  .row:hover {
+    background: ${(props) => props.theme.colors.bg.tertiary};
+  }
+
+  .row-item {
+    margin-left: var(--s1);
   }
 `
 

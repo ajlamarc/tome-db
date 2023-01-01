@@ -4,7 +4,14 @@ import { ThemeProvider } from 'styled-components'
 import { theme as baseTheme } from './theme/theme.js'
 import { GlobalStyle } from './theme/App.styles.js'
 import { Stack, Sidebar, Grid, Box, Cover, Center } from './components/index.js'
-import { Database, Package, Server } from 'react-feather'
+import {
+    ChevronRight,
+    Database,
+    MoreVertical,
+    Package,
+    Plus,
+    Server,
+} from 'react-feather'
 // import Tome from 'tome-db'
 
 // const api = new Urbit('', '', window.desk)
@@ -79,26 +86,47 @@ export class App extends React.Component {
         return (
             <ThemeProvider theme={baseTheme['light']}>
                 <GlobalStyle />
-                <Cover space="var(--s-1)" centered=".db">
+                <Cover space="var(--s-1)" centered=".db" className="body">
                     <Box padding="0" className="flex-grow db">
-                        <div className="mytable">
+                        <div className="db-content">
                             <div className="column">
                                 <Box
                                     padding="var(--s-1)"
                                     borderRadius="0px"
                                     borderWidth="0px 0px 2px 0px"
+                                    className="header"
                                 >
-                                    <span className="with-icon">
-                                        <Server className="icon" />{' '}
-                                        <p>~lomder-librun</p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="with-icon">
+                                            <Server className="icon" />{' '}
+                                            <p>~lomder-librun</p>
+                                        </span>
+                                    </div>
+                                </Box>
+                                <Box
+                                    padding="var(--s-1)"
+                                    borderRadius="0px"
+                                    borderWidth="0px 0px 2px 0px"
+                                    className="add-container"
+                                    onClick={() => {
+                                        console.log('clicked')
+                                    }}
+                                >
+                                    <span className="with-icon add">
+                                        <Plus className="icon" />{' '}
+                                        <p>New store</p>
                                     </span>
                                 </Box>
                                 <Box
                                     padding="var(--s-1)"
                                     borderRadius="0px"
                                     borderWidth="0px 0px 2px 0px"
+                                    className="row"
                                 >
-                                    <p>uniswap</p>
+                                    <div className="flex items-center justify-between row-item">
+                                        <p>Uniswap</p>
+                                        <ChevronRight className="icon" />
+                                    </div>
                                 </Box>
                             </div>
                             <div className="column">
@@ -106,11 +134,15 @@ export class App extends React.Component {
                                     padding="var(--s-1)"
                                     borderRadius="0px"
                                     borderWidth="0px 0px 2px 0px"
+                                    className="header"
                                 >
-                                    <span className="with-icon">
-                                        <Database className="icon" />{' '}
-                                        <p>uniswap</p>
-                                    </span>
+                                    <div className="flex items-center justify-between">
+                                        <span className="with-icon">
+                                            <Database className="icon" />{' '}
+                                            <p>uniswap</p>
+                                        </span>
+                                        <MoreVertical className="icon" />
+                                    </div>
                                 </Box>
                             </div>
                             <div className="column">
@@ -118,11 +150,15 @@ export class App extends React.Component {
                                     padding="var(--s-1)"
                                     borderRadius="0px"
                                     borderWidth="0px 0px 2px 0px"
+                                    className="header"
                                 >
-                                    <span className="with-icon">
-                                        <Package className="icon" />{' '}
-                                        <p>app.preferences</p>
-                                    </span>
+                                    <div className="flex items-center justify-between">
+                                        <span className="with-icon">
+                                            <Package className="icon" />{' '}
+                                            <p>app.preferences</p>
+                                        </span>
+                                        <MoreVertical className="icon" />
+                                    </div>
                                 </Box>
                             </div>
                         </div>

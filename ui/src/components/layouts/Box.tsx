@@ -22,7 +22,7 @@ const Box = styled.div<BoxProps>`
     ${(props) =>
         props.invert
             ? `
-    background-color: var(--color-light);
+    background-color: var(--background-color);
     filter: invert(100%);`
             : ''}
 
@@ -34,7 +34,7 @@ const Box = styled.div<BoxProps>`
 
   background-color: inherit;
     border-width: ${(props) => props.borderWidth};
-    border-color: var(--color-light);
+    border-color: var(--border-color);
     display: block;
     padding: ${(props) => props.padding};
 
