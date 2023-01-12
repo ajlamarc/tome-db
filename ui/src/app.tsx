@@ -12,74 +12,76 @@ import {
     Plus,
     Server,
 } from 'react-feather'
-// import Tome from 'tome-db'
+import Tome from 'tome-db'
 
-// const api = new Urbit('', '', window.desk)
-// api.ship = window.ship
+const api = new Urbit('', '', window.desk)
+api.ship = window.ship
 
-// // console.log(api)
+console.warn('Using an Urbit Backend: \n\n')
+const db = new Tome(api)
 
-// // example using Tome
-// const db = new Tome(api)
-// //console.log(db)
-// const store = db.store()
-// // console.log(store)
-// const appPreferencesStash = store.create('app.preferences')
-// // console.log(store)
-// await appPreferencesStash.set('alice', 'bob')
-// await appPreferencesStash.set('charlie', 'david')
+const store = db.store()
 
-// /*
+const appPreferencesStash = store.create('app.preferences')
+console.log(
+    "Adding 'alice': 'bob' and 'charlie': 'david' to the key-value store:"
+)
+await appPreferencesStash.set('alice', 'bob')
+await appPreferencesStash.set('charlie', 'david')
 
-// poke testing
+console.log('All values currently in the key-value store: ')
+let resp = await appPreferencesStash.all()
+console.log(resp)
 
-// api.poke({
-//   app: 'tome-api',
-//   mark: 'stash-action',
-//   json: { 'set-stash': { desk: window.desk, src: api.desk, sta: 'app.preferences', key: 'test', val: 'test' } }
-// })
+console.log("Attempting to retrieve a missing value 'zulu': ")
+let value = await appPreferencesStash.get('zulu')
 
-// const value2 = api.scry({
-//   app: 'tome-api',
-//   path: `/${window.desk}/${api.desk}/store/${'app.preferences'}/${'charlie'}/json`,
-// }).then((value: string) => value)
-// console.log(value2)
-// */
+console.log("Retrieve value for 'alice': ")
+value = await appPreferencesStash.get('alice')
+console.log(value)
 
-// const value = await appPreferencesStash.get('zulu') //check console logging
-// console.log(value)
+console.log("Now remove 'alice' and get all again: ")
+await appPreferencesStash.remove('alice')
+resp = await appPreferencesStash.all()
+console.log(resp)
 
-// let resp = await appPreferencesStash.all()
-// console.log(resp.get('alice'))
-
-// await appPreferencesStash.remove('alice')
-// resp = await appPreferencesStash.all()
-// console.log(resp)
-
-// await appPreferencesStash.clear()
-// resp = await appPreferencesStash.all()
-// console.log(resp)
+console.log('Now clear the store and get all again: ')
+await appPreferencesStash.clear()
+resp = await appPreferencesStash.all()
+console.log(resp)
 
 // // example using local storage
-// const local = new Tome()
-// const localStore = local.store()
-// const localStash = localStore.create('local.preferences')
-// await localStash.set('foo', 'bar')
-// await localStash.set('baz', 'lol')
+console.warn('Using Local Storage: \n\n')
+const local = new Tome()
+const localStore = local.store()
 
-// const localval = await localStash.get('baz')
-// console.log(localval)
+const localPreferencesStash = localStore.create('app.preferences')
+console.log(
+    "Adding 'alice': 'bob' and 'charlie': 'david' to the key-value store:"
+)
+await localPreferencesStash.set('alice', 'bob')
+await localPreferencesStash.set('charlie', 'david')
 
-// resp = await localStash.all()
-// console.log(resp.get('foo')) // TODO: is there a way to avoid TS complaints here?
+console.log('All values currently in the key-value store: ')
+resp = await localPreferencesStash.all()
+console.log(resp)
 
-// await localStash.remove('foo')
-// resp = await localStash.all()
-// console.log(resp)
+console.log("Attempting to retrieve a missing value 'zulu': ")
+value = await localPreferencesStash.get('zulu')
 
-// await localStash.clear()
-// resp = await localStash.all()
-// console.log(resp)
+console.log("Retrieve value for 'alice': ")
+value = await localPreferencesStash.get('alice')
+console.log(value)
+
+console.log("Now remove 'alice' and get all again: ")
+await localPreferencesStash.remove('alice')
+resp = await localPreferencesStash.all()
+console.log(resp)
+
+console.log('Now clear the store and get all again: ')
+await localPreferencesStash.clear()
+resp = await localPreferencesStash.all()
+console.log(resp)
 
 export class App extends React.Component {
     render() {
@@ -99,7 +101,7 @@ export class App extends React.Component {
                                     <div className="flex items-center justify-between">
                                         <span className="with-icon">
                                             <Server className="icon" />{' '}
-                                            <p>~lomder-librun</p>
+                                            <p>lomder-librun</p>
                                         </span>
                                     </div>
                                 </Box>
