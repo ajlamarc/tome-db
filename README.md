@@ -30,3 +30,5 @@ For more in-depth technical information, see `DESIGN.md`.
 ![UI](images/ui.png)
 
 #### Example Script Output
+
+![Output](images/tome-output.png)
